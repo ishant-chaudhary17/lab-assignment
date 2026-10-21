@@ -24,7 +24,7 @@ pipeline {
             steps {
                 sh 'docker run -d --name website-test -p 8082:80 ishant-website:latest'
                 sh 'sleep 3'
-                sh 'curl --fail http://localhost:8081'
+                sh 'curl --fail http://localhost:8082'
                 sh 'docker rm -f website-test'
             }
         }
