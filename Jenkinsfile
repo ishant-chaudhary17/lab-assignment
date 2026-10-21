@@ -22,7 +22,7 @@ pipeline {
 
         stage('Test Website') {
             steps {
-                sh 'docker run -d --name website-test -p 8081:80 ishant-website:latest'
+                sh 'docker run -d --name website-test -p 8082:80 ishant-website:latest'
                 sh 'sleep 3'
                 sh 'curl --fail http://localhost:8081'
                 sh 'docker rm -f website-test'
