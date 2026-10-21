@@ -26,6 +26,24 @@ pipeline {
                 sh 'sleep 3'
                 sh 'curl --fail http://localhost:8082'
                 sh 'docker rm -f website-test'
+                
+stage('Push to Docker Hub') {
+    steps {
+        withCredentials([usernamePassword(
+            credentialsId: 'dockerhub-creds',
+            usernameVariable: 'DOCKERHUB_USER',
+            passwordVariable: 'DOCKERHUB_TOKEN'
+        )]) {
+            sh '''
+                echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USER" --password-stdin
+                docker tag ishant-website:latest "$DOCKERHUB_USER/ishant-cicd-demo:latest"
+                docker push "$DOCKERHUB_USER/ishant-cicd-demo:latest"
+                docker logout
+            '''
+        }
+    }
+}
+
             }
         }
     }
